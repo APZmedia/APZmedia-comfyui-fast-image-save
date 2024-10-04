@@ -5,7 +5,7 @@ import folder_paths
 from datetime import datetime
 
 
-class ImageSaveWithMetadata:
+class FastImageSave:
     def __init__(self):
         self.output_dir = folder_paths.output_directory
 
@@ -152,5 +152,5 @@ class ImageSaveWithMetadata:
 
 
 NODE_CLASS_MAPPINGS = {
-    "APZmedia Fast image save": ImageSaveWithMetadata,
+    "APZmedia Fast image save": FastImageSave,
 }

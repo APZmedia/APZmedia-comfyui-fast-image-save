@@ -1,7 +1,7 @@
-from .nodes.apzmedia_fast_image_save import ImageSaveWithAlphaChannel
+from .nodes.apzmedia_fast_image_save import FastImageSave
 
 NODE_CLASS_MAPPINGS = {
-    "APZmedia Fast image save": ImageSaveWithAlphaChannel,
+    "APZmedia Fast image save": FastImageSave,
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
