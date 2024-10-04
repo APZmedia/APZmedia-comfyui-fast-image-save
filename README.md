@@ -1,11 +1,15 @@
 # APZmedia Fast Image Save Node
 
-This node for ComfyUI allows saving images with an optional alpha channel (transparency). It supports saving images in formats like PNG, JPEG, and WebP.
+This node for ComfyUI allows saving images faster than other nodes using PIL. It supports saving images in formats like PNG, JPEG, and WebP.
+It is suitable for image sequences where speed is necessary. It works faster if compression is off.
+**IMPORTANT: IT DOESN'T SAVE THE WORKFLOW IN THE IMAGES**
 
 ## Features
-- Option to save PNG with alpha channel if a mask is provided (WIP).
 - Supports saving images in JPEG and WebP formats.
 - Optimized image saving with optional compression.
+
+## To do
+- Support for masks to add alpha channel to images.
 
 ## Installation
 
