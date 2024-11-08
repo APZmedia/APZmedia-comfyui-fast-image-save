@@ -71,22 +71,16 @@ class FastImageSave:
             return images, "No images were saved."
 
     def get_output_path(self, output_path):
-        # Replace dynamic time variables in output path if necessary
         print(f"Original output path: {output_path}")
         processed_output_path = output_path.replace('[time(%Y-%m-%d)]', datetime.now().strftime('%Y-%m-%d'))
         print(f"Processed output path: {processed_output_path}")
         return processed_output_path
 
     def generate_unique_filename(self, output_path, filename_prefix, filename_delimiter, img_count, extension, filename_number_padding, overwrite_mode):
-        """
-        Generates a unique filename if the file already exists in the output path and overwrite_mode is set to False.
-        """
         while True:
-            # Generate the filename
             filename = f"{filename_prefix}{filename_delimiter}{str(img_count).zfill(filename_number_padding)}.{extension}"
             file_path = os.path.join(output_path, filename)
 
-            # If overwrite mode is False and the file exists, increment the counter
             if not overwrite_mode and os.path.exists(file_path):
                 print(f"File {file_path} already exists, trying next filename.")
                 img_count += 1
@@ -100,21 +94,18 @@ class FastImageSave:
         filenames = []
         saved_images = []
 
-        # Check if images is None or has no elements
         if images is None or images.numel() == 0:
             print("No images found.")
             return filenames, saved_images
 
         for idx, image in enumerate(images):
-            # Debug: Log each image
             print(f"Processing image {idx + 1}/{len(images)}")
             print(f"Current image tensor: {image}")
             
-            # Convert the tensor to a NumPy array for OpenCV
             i = 255. * image.cpu().numpy()
             img = np.clip(i, 0, 255).astype(np.uint8)
+            img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
 
-            # Generate a unique filename
             filename, file_path = self.generate_unique_filename(output_path, filename_prefix, filename_delimiter, img_count, extension, filename_number_padding, overwrite_mode)
 
             print(f"Generated filename: {filename}")
@@ -132,21 +123,17 @@ class FastImageSave:
         return filenames, saved_images
 
     def save_png(self, file_path, img, dpi, optimize_image):
-        # Debugging info for PNG save
         print(f"Saving PNG to {file_path}")
         print(f"PNG optimization: {optimize_image}")
         
-        # Save PNG with optional optimization
         params = [cv2.IMWRITE_PNG_COMPRESSION, 9 if optimize_image else 0]
         cv2.imwrite(file_path, img, params)
 
     def save_jpeg_or_webp(self, file_path, img, extension, quality, lossless_webp):
-        # Debugging info for JPEG/WEBP save
         print(f"Saving {extension.upper()} to {file_path}")
         print(f"Quality: {quality}")
         print(f"Lossless WebP: {lossless_webp}")
 
-        # Save as JPEG or WEBP with quality control
         params = [int(cv2.IMWRITE_JPEG_QUALITY), quality] if extension == 'jpeg' else [int(cv2.IMWRITE_WEBP_QUALITY), quality]
         cv2.imwrite(file_path, img, params)
 
