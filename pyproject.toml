@@ -1,0 +1,15 @@
+[project]
+name = "apzmedia-comfyui-fast-image-save"
+description = "This node for ComfyUI allows saving images with an optional alpha channel (transparency). It supports saving images in formats like PNG, JPEG, and WebP."
+version = "1.0.0"
+license = {file = "LICENSE"}
+dependencies = ["opencv-python", "numpy"]
+
+[project.urls]
+Repository = "https://github.com/APZmedia/APZmedia-comfyui-fast-image-save"
+#  Used by Comfy Registry https://comfyregistry.org
+
+[tool.comfy]
+PublisherId = ""
+DisplayName = "APZmedia-comfyui-fast-image-save"
+Icon = ""
