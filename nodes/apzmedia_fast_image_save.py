@@ -65,7 +65,8 @@ class FastImageSave:
 
         # Output both the saved images and their filenames
         if filenames:
-            return saved_images, f"Images saved at: {output_path}"
+            full_paths = [os.path.join(output_path, fname) for fname in filenames]
+            return saved_images, f"{full_paths[-1]}"
         else:
             print("No images were saved.")
             return images, "No images were saved."
