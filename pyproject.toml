@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "apzmedia-comfyui-fast-image-save"
+version = "0.1.0"
+description = "ComfyUI node for saving images faster than standard nodes using PIL, with PNG, JPEG, and WebP support"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "Pablo Apiolazza", email = "info@apzmedia.com"}
+]
+maintainers = [
+    {name = "Pablo Apiolazza", email = "info@apzmedia.com"}
+]
+keywords = ["comfyui", "image", "save", "png", "jpeg", "webp", "vfx"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Multimedia :: Graphics",
+]
+requires-python = ">=3.8"
+dependencies = [
+    "numpy",
+    "opencv-python",
+]
+
+[project.urls]
+Homepage = "https://github.com/APZmedia/APZmedia-comfyui-fast-image-save"
+Repository = "https://github.com/APZmedia/APZmedia-comfyui-fast-image-save"
+Issues = "https://github.com/APZmedia/APZmedia-comfyui-fast-image-save/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["nodes*"]
+
+[tool.comfy]
+PublisherId = "APZmedia"
+DisplayName = "APZmedia Fast Image Save"
+Icon = ""
