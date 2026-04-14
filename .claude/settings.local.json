@@ -3,7 +3,12 @@
     "allow": [
       "Bash(git add:*)",
       "Bash(git commit:*)",
-      "Bash(git push:*)"
+      "Bash(git push:*)",
+      "WebSearch",
+      "Bash(\"C:/AI/ComfyUI_windows_portable/python_embeded/python.exe\" -c \"import PIL; print\\(''PIL:'', PIL.__version__\\)\")",
+      "Bash(\"C:/AI/ComfyUI_windows_portable/python_embeded/python.exe\" -c \"import pyvips; print\\(''pyvips:'', pyvips.__version__\\)\")",
+      "Bash(\"C:/AI/ComfyUI_windows_portable/python_embeded/python.exe\" -c \"from turbojpeg import TurboJPEG; print\\(''PyTurboJPEG available''\\)\")",
+      "Bash(\"C:/AI/ComfyUI_windows_portable/python_embeded/python.exe\" -c \"import webp; print\\(''webp:'', getattr\\(webp, ''__version__'', ''unknown''\\)\\)\")"
     ]
   }
 }

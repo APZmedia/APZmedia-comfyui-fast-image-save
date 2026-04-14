@@ -17,6 +17,7 @@ The built-in Save Image node embeds the workflow JSON into every PNG it produces
 ## Features
 
 - **PNG, JPEG, and WebP output**
+- **Multi-backend support** — auto-selects fastest library per format
 - **Parallel saving** — multi-threaded I/O for maximum throughput
 - **Batch filename generation** — eliminates O(n²) collision checks
 - **Optimized tensor operations** — minimal CPU-GPU transfer overhead
@@ -27,6 +28,17 @@ The built-in Save Image node embeds the workflow JSON into every PNG it produces
 ---
 
 ## Performance Optimizations
+
+### Multi-Backend Support
+The node automatically selects the fastest available library for each format:
+
+| Format | Fastest | Quality | Notes |
+|--------|---------|---------|-------|
+| PNG | OpenCV | Good | Fastest general use |
+| JPEG | **TurboJPEG** 🚀 | Excellent | 2-3x faster than OpenCV |
+| WebP | PIL / webp-native | Best | Best quality control |
+
+Optional performance libraries are **auto-installed on first load** — no manual steps needed! The node will automatically download and install PyTurboJPEG and webp libraries if they're not present.
 
 ### Parallel Saving
 Enable `parallel_save` to save multiple images concurrently. Uses a thread pool optimized for I/O-bound operations. Tune `max_workers` (1-16) based on your storage:
@@ -63,6 +75,14 @@ Instead of checking each file individually (O(n²)), the node batches directory 
 | `show_previews` | Print save location to console |
 | `parallel_save` | Enable multi-threaded saving |
 | `max_workers` | Thread pool size (1-16) |
+| `backend` | auto / opencv / pil / turbojpeg / webp-native |
+
+### Backend Options
+- **auto**: Automatically selects fastest available (recommended)
+- **opencv**: Always available, good general performance
+- **pil**: Best quality, more format options
+- **turbojpeg**: Fastest JPEG (auto-installed if available)
+- **webp-native**: Native WebP library (auto-installed if available)
 
 ---
 
@@ -73,8 +93,10 @@ Instead of checking each file individually (O(n²)), the node batches directory 
    cd ComfyUI/custom_nodes
    git clone https://github.com/APZmedia/APZmedia-comfyui-fast-image-save.git
    ```
-2. Restart ComfyUI
+2. Restart ComfyUI — optional performance libraries will auto-install on first load
 3. Find the node under the **APZmedia Fast image save** category
+
+**That's it!** PyTurboJPEG and webp libraries are automatically installed if not present.
 
 ---
 

@@ -1,3 +1,7 @@
 numpy
 opencv-python
 
+# Optional performance libraries
+# PyTurboJPEG  # 2-3x faster JPEG encoding
+# webp         # Native WebP library
+
