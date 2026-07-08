@@ -16,8 +16,20 @@ except ImportError:
 
 try:
     import turbojpeg
-    TURBOJPEG_AVAILABLE = True
-    _jpeg_encoder = turbojpeg.TurboJPEG()
+    try:
+        # The PyTurboJPEG wheel only installs the Python wrapper; it still
+        # needs the native libturbojpeg shared library on the system. When
+        # that native library can't be located this raises (commonly a
+        # RuntimeError/OSError, not an ImportError), so it must be caught
+        # separately or it takes down the whole node import.
+        _jpeg_encoder = turbojpeg.TurboJPEG()
+        TURBOJPEG_AVAILABLE = True
+    except Exception as e:
+        print(f"[APZmedia Fast Image Save] PyTurboJPEG installed but the native "
+              f"libturbojpeg library was not found ({e}). Falling back to OpenCV/PIL "
+              f"for JPEG encoding. See README for how to install the native library.")
+        TURBOJPEG_AVAILABLE = False
+        _jpeg_encoder = None
 except ImportError:
     TURBOJPEG_AVAILABLE = False
     _jpeg_encoder = None

@@ -38,7 +38,7 @@ The node automatically selects the fastest available library for each format:
 | JPEG | **TurboJPEG** 🚀 | Excellent | 2-3x faster than OpenCV |
 | WebP | PIL / webp-native | Best | Best quality control |
 
-Optional performance libraries are **auto-installed on first load** — no manual steps needed! The node will automatically download and install PyTurboJPEG and webp libraries if they're not present.
+Optional Python packages (`PyTurboJPEG`, `webp`) are **auto-installed on first load** — no manual steps needed there. Note that `PyTurboJPEG` is just a wrapper: it also needs the native `libturbojpeg` library installed on your system (see [TurboJPEG setup](#turbojpeg-setup) below). If that native library isn't found, the node quietly falls back to OpenCV/PIL for JPEG — it won't crash or block other formats.
 
 ### Parallel Saving
 Enable `parallel_save` to save multiple images concurrently. Uses a thread pool optimized for I/O-bound operations. Tune `max_workers` (1-16) based on your storage:
@@ -81,7 +81,7 @@ Instead of checking each file individually (O(n²)), the node batches directory 
 - **auto**: Automatically selects fastest available (recommended)
 - **opencv**: Always available, good general performance
 - **pil**: Best quality, more format options
-- **turbojpeg**: Fastest JPEG (auto-installed if available)
+- **turbojpeg**: Fastest JPEG (requires the native library — see [TurboJPEG setup](#turbojpeg-setup))
 - **webp-native**: Native WebP library (auto-installed if available)
 
 ---
@@ -96,7 +96,20 @@ Instead of checking each file individually (O(n²)), the node batches directory 
 2. Restart ComfyUI — optional performance libraries will auto-install on first load
 3. Find the node under the **APZmedia Fast image save** category
 
-**That's it!** PyTurboJPEG and webp libraries are automatically installed if not present.
+**That's it!** PyTurboJPEG and webp libraries are automatically installed if not present. For the JPEG speed boost, also install the native TurboJPEG library below.
+
+---
+
+## TurboJPEG Setup
+
+`PyTurboJPEG` (the Python package) is only a wrapper around the native `libturbojpeg` library, which pip cannot install for you. Without it, PyTurboJPEG raises `"Unable to locate turbojpeg library automatically"` — this node catches that and silently falls back to OpenCV, so it's safe to ignore if you don't need the extra JPEG speed. To enable it:
+
+- **Windows**: Install the [libjpeg-turbo](https://github.com/libjpeg-turbo/libjpeg-turbo/releases) SDK (the `-vc64.exe` installer). PyTurboJPEG looks for it at the default install path `C:\libjpeg-turbo64\bin\turbojpeg.dll`.
+- **macOS**: `brew install jpeg-turbo`
+- **Linux (Debian/Ubuntu)**: `sudo apt install libturbojpeg0`
+- **Linux (Fedora/RHEL)**: `sudo dnf install libjpeg-turbo`
+
+After installing, restart ComfyUI. PyTurboJPEG looks for the library via the system's standard shared-library search (and `LD_LIBRARY_PATH` on Linux), plus the default install paths above — installing to the default location is the most reliable option.
 
 ---
 

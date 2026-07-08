@@ -51,6 +51,22 @@ def _check_and_install_optional_deps():
 
         print("[APZmedia Fast Image Save] Restart ComfyUI to use newly installed libraries")
 
+    # PyTurboJPEG is only a ctypes wrapper: it still needs the native
+    # libturbojpeg shared library installed separately by the OS, which pip
+    # cannot provide. Warn once so users understand why the turbojpeg
+    # backend may be unavailable even after the package installs cleanly.
+    if "PyTurboJPEG" not in missing:
+        try:
+            import turbojpeg
+            turbojpeg.TurboJPEG()
+        except ImportError:
+            pass
+        except Exception:
+            print("[APZmedia Fast Image Save] PyTurboJPEG is installed, but the native "
+                  "libturbojpeg library was not found on this system. The turbojpeg "
+                  "backend will be unavailable; the node will fall back to OpenCV/PIL. "
+                  "See README.md for how to install the native libjpeg-turbo library.")
+
 
 # Run on module load
 _check_and_install_optional_deps()
