@@ -103,13 +103,16 @@ class FastImageSave:
                 "lossless_webp": (['false', 'true'], {"default": 'false'}),
                 "overwrite_mode": (['false', 'true'], {"default": 'false'}),
                 "show_previews": (['false', 'true'], {"default": 'true'}),
+            },
+            # Kept optional (rather than required) so workflows and API prompts saved
+            # before these inputs existed keep working without specifying them.
+            "optional": {
                 "parallel_save": (['false', 'true'], {"default": 'true'}),
                 "max_workers": ("INT", {"default": 4, "min": 1, "max": 16}),
                 "backend": (backends, {"default": 'auto', "tooltip":
                                        "auto = fastest available, opencv = always works, pil = best quality, "
                                        "turbojpeg = fastest JPEG (if installed), webp-native = WebP optimized (if installed)"}),
             },
-            "optional": {},
         }
 
     RETURN_TYPES = ("IMAGE", "STRING")
@@ -119,7 +122,7 @@ class FastImageSave:
 
     def save_files(self, images, output_path, filename_prefix, filename_delimiter, filename_number_padding,
                    filename_number_start, extension, dpi, quality, optimize_image, lossless_webp,
-                   overwrite_mode, show_previews, parallel_save, max_workers, backend):
+                   overwrite_mode, show_previews, parallel_save='true', max_workers=4, backend='auto'):
         output_path = self.get_output_path(output_path)
 
         if not os.path.exists(output_path):
